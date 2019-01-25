@@ -7,7 +7,7 @@
                 <div class="mask">
                     <h3 class="maskTitle">{{comic_title}}</h3>
                     <div class="maskContent">
-                        <div class="category" v-for="item of categoryList">
+                        <div class="category" v-for="(item,index) of categoryList" :key="index">
                             {{item}}
                         </div>
                         <div class="text">
@@ -98,7 +98,7 @@
                 this.showDeatilStatus = false
             },
             getComicDetail () {
-                const url =`http://127.0.0.1:5000/get_detail?id=${this.id}`
+                const url =`${this.$hostname}/get_detail?id=${this.id}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
@@ -112,7 +112,7 @@
                 })
             },
             getChapterDetail () {
-                const url =`http://127.0.0.1:5000/get_chapter?id=${this.id}`
+                const url =`${this.$hostname}/get_chapter?id=${this.id}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){

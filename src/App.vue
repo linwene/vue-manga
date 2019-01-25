@@ -17,4 +17,7 @@ body{
   padding:0;
   background-color: #fff;
 }
+html{
+  font-size: 20px;
+}
 </style>

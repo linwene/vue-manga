@@ -162,7 +162,7 @@
             // 获取随机推荐，6条，推荐是3的倍数，否则页面样式会出错
             getRecommendList () {
                 let self = this
-                const url =`http://127.0.0.1:5000/random_select_comic?quantity=${6}`
+                const url =`${this.$hostname}/random_select_comic?quantity=${6}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
@@ -172,13 +172,13 @@
             },
             getUpdateComic () {
                 let self = this
-                const url = `http://127.0.0.1:5000/get_update_comic?day=0`
+                const url = `${this.$hostname}/get_update_comic?day=0`
                 axios.get(url).then(res => {
                     let data = res.data
                     var count = 0 
                     if (data.success){
                         data.data.msg.some(element => {
-                            const update_url = `http://127.0.0.1:5000/get_detail?id=${element.comic_id}`
+                            const update_url = `${this.$hostname}/get_detail?id=${element.comic_id}`
                             axios.get(update_url).then(res => {
                                 let data = res.data
                                 if (data.success){
@@ -206,7 +206,7 @@
             getJPcomic () {
                 let self = this
                 // encodeURI是为了解决get提交有可能中文乱码问题
-                const url = `http://127.0.0.1:5000/category_query?`+encodeURI('tags=日漫')+`&page=1&count=6`
+                const url = `http://192.168.1.110:5000/category_query?`+encodeURI('tags=日漫')+`&page=1&count=6`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
@@ -242,11 +242,12 @@
     }
     .index-header{
         display: flex;
+        height:50px;
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
         position: fixed;
-        z-index: 99;
+        z-index: 133;
         top: 0;
         left: 0;
         width: 100%;
@@ -290,7 +291,7 @@
             display: flex;
             justify-content:space-between;
             padding: 0 40px;
-            margin-top: -1.25rem;
+            margin-top: -1.4rem;
             background: transparent url('../../../static/images/background.png') no-repeat scroll 0 100%;
             background-size:100% 4.45rem;
             z-index: 99;

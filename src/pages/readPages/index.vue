@@ -40,7 +40,7 @@
         },
         methods:{
             getComicImg () {
-                const url =`http://127.0.0.1:5000/get_detail_img?href=${this.chapterId}`
+                const url =`${this.$hostname}/get_detail_img?href=${this.chapterId}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
@@ -52,7 +52,7 @@
             },
             clickPagenation (cid) {
                 if (cid != null){
-                    const url =`http://127.0.0.1:5000/get_detail_img?href=${cid}`
+                    const url =`${this.$hostname}/get_detail_img?href=${cid}`
                     axios.get(url).then(res => {
                         let data = res.data
                         if (data.success){
