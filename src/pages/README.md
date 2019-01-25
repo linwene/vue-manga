@@ -1,4 +1,4 @@
-# vue-manga
+# one-comic
 
 > A Vue.js project
 
