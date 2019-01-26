@@ -7,7 +7,25 @@
                 <i class="sprite-app-search"></i>
             </a>
         </header>
-        
+        <section class="comic-list">
+            <ul class="list-hot">
+                <li class="comic-item" v-for="(item,index) of categoryComicList" :key="index">
+                    <a class="comic-link">
+                        <div class="comic-cover">
+                            <img class="cover-image" :src="item.vertical_image_url"/>
+                        </div>
+                        <div class="comic-info">
+                            <strong class="comic-title">{{item.title}}</strong>
+                            <small class="comic-hot">作者：{{item.author}}</small>
+                            <small class="comic-tag">
+                                <span v-for ="(cg,i) of item.category" :key="i">{{cg}}</span>
+                            </small>
+                            <small class="comic-desc">{{item.desc}}</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </section>
     </div>
 </template>
 
@@ -18,7 +36,24 @@
         data () {
             return{
                 category_name:this.$route.params.category_name,
+                categoryComicList:[],
+                page:1
             }
+        },
+        methods:{
+            getComic () {
+                let self = this
+                const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=20`
+                axios.get(url).then(res => {
+                    let data = res.data
+                    if (data.success){
+                        self.categoryComicList = data.data.msg
+                    }
+                })
+            }
+        },
+        mounted () {
+            this.getComic()
         }
     }
 </script>
@@ -76,6 +111,58 @@
                 background-position: -7.1rem -5.3rem;
                 width: 25px;
                 height: 25px;
+            }
+        }
+    }
+    .comic-list{
+        margin-top:2.5rem;
+        padding-top: 0.25rem;
+        background-color: #F5F5EE;
+        .list-hot{
+            margin:0;
+            padding:0 0.25rem;
+            .comic-item {
+                border-bottom: 0.25rem solid #F5F5EE;
+                .comic-link{
+                    display: flex;
+                    background-color: white;
+                    padding: 0.25rem;
+                    box-sizing: border-box;   
+                    .comic-cover {
+                        height: 4.675rem;
+                        width: 3.5rem;
+                        margin-right: 0.5rem;
+                        img {
+                            display: block;
+                            border-radius: 0.1rem;
+                            overflow: hidden;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .comic-info {
+                        flex: 1;
+                        min-width: 1px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        strong {
+                            color: #535252;
+                            font-size: 0.8rem;
+                            line-height: 150%;
+                            padding-top: 0.25rem;
+                        }
+                        small {
+                            font-size: 0.6rem;
+                            color: #969696;
+                            line-height: 1rem;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            padding-top: 1px;
+                        }
+                    }
+                }
             }
         }
     }
