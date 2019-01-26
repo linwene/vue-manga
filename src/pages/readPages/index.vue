@@ -88,6 +88,7 @@
             height: auto;
             img{
                 display: block;
+                pointer-events: none;//这句的作用是禁止移动端点击放大
                 width: 100%;
                 min-height: 100px;
                 background: #fff url('../../../static/images/img_bg_3.png') no-repeat scroll center 2.5rem;

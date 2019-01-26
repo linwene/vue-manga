@@ -34,7 +34,12 @@
                 <div class="row-item">
                     <a title="排行" href="">
                         <i class="sprite-index-rank"></i>
-                        <div class="plain-text">分类</div>
+                        <router-link 
+                            class="plain-text" 
+                            to="/tagPages"
+                            tag="div">
+                            分类
+                        </router-link>
                     </a>
                 </div>
                 <div class="row-item">
@@ -66,7 +71,7 @@
             </h2>
             <div class="middle">
                 <div class="rows">
-                    <div class="HomeList" v-for="item of recommendList">
+                    <div class="HomeList" v-for="(item,index) of recommendList" :key="index">
                         <router-link 
                         tag="a"
                         :to="'/detail/' + item.id"
@@ -92,7 +97,7 @@
             <div class="update-area">
                 <aside class="npc">[NPC图片]</aside>
                 <ul class="comic-list">
-                    <li class="comic-item" v-for="(item,index) of updateComicList">
+                    <li class="comic-item" v-for="(item,index) of updateComicList" :key="index">
                         <router-link 
                             :to="'/detail/' + item.comic_id"
                             :key="item.comic_id"
@@ -105,7 +110,7 @@
                                 <strong class="comic-title">{{item.comic_title}}</strong>
                                 <small class="comic-artist">作者: {{item.author}}</small>
                                 <small class="comic-tag">
-                                    <span v-for ="cg of item.category">{{cg}}</span>
+                                    <span v-for ="(cg,i) of item.category" :key="i">{{cg}}</span>
                                 </small>
                             </div>
                         </router-link>
@@ -122,7 +127,7 @@
             </h2>
             <div class="middle">
                 <div class="rows">
-                    <div class="HomeList" v-for="item of jpComicList">
+                    <div class="HomeList" v-for="(item,index) of jpComicList" :key="index">
                         <router-link 
                         tag="a"
                         :to="'/detail/' + item.id"
@@ -143,6 +148,7 @@
 <script>
     import axios from 'axios'
     export default {
+        name:'Home',
         data() {
             return {
                 swiperOption: {

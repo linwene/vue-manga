@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/pages/home/index.vue'
 import Detail from '@/pages/detail/index.vue'
 import ReadPages from '@/pages/readPages/index.vue'
+import TagPages from '@/pages/tagPages/index.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,10 @@ export default new Router({
       path: '/readPages/:chapterId',
       name: 'ReadPages',
       component: ReadPages
+    },{
+      path: '/tagPages',
+      name: 'TagPages',
+      component: TagPages
     }
   ]
 })
