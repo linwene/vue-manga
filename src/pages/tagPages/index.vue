@@ -1,7 +1,7 @@
 <template>
     <div>
         <header class="top-bar">
-            <a class="btn-top back">[返回]</a>
+            <span class="btn-top back" @click="$router.back(-1)">[返回]</span>
             <h1 class="top-title">分类</h1>
             <a href="" title="分类" class="search-link">
                 <i class="sprite-app-search"></i>

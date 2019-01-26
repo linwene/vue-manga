@@ -32,15 +32,13 @@
             <!-- 菜单 -->
             <div class="menu-list">
                 <div class="row-item">
-                    <a title="排行" href="">
-                        <i class="sprite-index-rank"></i>
-                        <router-link 
-                            class="plain-text" 
-                            to="/tagPages"
-                            tag="div">
-                            分类
-                        </router-link>
-                    </a>
+                    <i class="sprite-index-rank"></i>
+                    <router-link 
+                        class="plain-text" 
+                        to="/tagPages"
+                        tag="a">
+                        分类
+                    </router-link>
                 </div>
                 <div class="row-item">
                     <a title="分类" href="">
