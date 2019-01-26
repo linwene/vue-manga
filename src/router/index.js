@@ -4,6 +4,7 @@ import Home from '@/pages/home/index.vue'
 import Detail from '@/pages/detail/index.vue'
 import ReadPages from '@/pages/readPages/index.vue'
 import TagPages from '@/pages/tagPages/index.vue'
+import TagListAll from '@/pages/tagListAll/index.vue'
 
 Vue.use(Router)
 
@@ -25,6 +26,10 @@ export default new Router({
       path: '/tagPages',
       name: 'TagPages',
       component: TagPages
+    },{
+      path: '/tagListAll/:category_name',
+      name: 'TagListAll',
+      component: TagListAll
     }
   ]
 })

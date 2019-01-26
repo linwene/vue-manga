@@ -9,10 +9,14 @@
         </header>
         <div class="content">
             <div class="item" v-for="(item,index) of categoryList" :key="index">
-                <a  class="itemsLink" href="">
+                <router-link 
+                    class="itemsLink" 
+                   :to="'/tagListAll/' + item.category_name"
+                   tag="a"
+                   >
                     <span class="bgCover" :style="item.style"></span>
                     <span class="text">{{item.category_name}}</span>
-                </a>
+                </router-link>
             </div>
         </div>
     </div>
@@ -30,7 +34,7 @@
         methods: {
             getCategory () {
                 let self = this
-                const url ='http://127.0.0.1:5000/get_category'
+                const url =`${this.$hostname}/get_category`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
