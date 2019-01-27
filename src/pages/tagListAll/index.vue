@@ -46,8 +46,8 @@
             }
         },
         created() {
-            // window.addEventListener('scroll', _.throttle(this.onScroll,200));
-            window.addEventListener('scroll',this.onScroll)
+            window.addEventListener('scroll', _.throttle(this.onScroll,200));
+            // window.addEventListener('scroll',this.onScroll)
 
         },
         destroyed () {
