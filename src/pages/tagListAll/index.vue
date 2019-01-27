@@ -10,7 +10,11 @@
         <section class="comic-list">
             <ul class="list-hot">
                 <li class="comic-item" v-for="(item,index) of categoryComicList" :key="index">
-                    <a class="comic-link">
+                    <router-link 
+                        :to="'/detail/' + item.id"
+                        tag="a"
+                        :key="item.id"
+                        class="comic-link">
                         <div class="comic-cover">
                             <img class="cover-image" :src="item.vertical_image_url"/>
                         </div>
@@ -22,7 +26,7 @@
                             </small>
                             <small class="comic-desc">{{item.desc}}</small>
                         </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </section>
@@ -37,17 +41,53 @@
             return{
                 category_name:this.$route.params.category_name,
                 categoryComicList:[],
+                // throttleLoad:'',
                 page:1
             }
         },
+        created() {
+            // window.addEventListener('scroll', _.throttle(this.onScroll,200));
+            window.addEventListener('scroll',this.onScroll)
+
+        },
+        destroyed () {
+            // window.removeEventListener('scroll',this.onScroll)
+            window.removeEventListener('scroll',this.onScroll)
+        },
         methods:{
+            onScroll(){
+                //滚动容器的高度
+                let innerHeight = document.querySelector('#app').clientHeight;
+                //屏幕尺寸高度
+                let outerHeight = document.documentElement.clientHeight;
+                //可滚动容器超出当前窗口显示范围的高度
+                let scrollTop = document.documentElement.scrollTop;
+                //scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
+                console.log(innerHeight + " " + outerHeight + " " + scrollTop);
+                if (innerHeight < (outerHeight + scrollTop)) {
+                    //加载更多操作
+                    console.log("loadmore");
+                    this.page = this.page + 1;
+                    this.loadMoreComic();
+                }
+            },
             getComic () {
                 let self = this
-                const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=20`
+                const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=10`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
                         self.categoryComicList = data.data.msg
+                    }
+                })
+            },
+            loadMoreComic () {
+                let self = this
+                const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=10`
+                axios.get(url).then(res => {
+                    let data = res.data
+                    if (data.success){
+                        self.categoryComicList = self.categoryComicList.concat(data.data.msg)
                     }
                 })
             }
@@ -121,13 +161,17 @@
         .list-hot{
             margin:0;
             padding:0 0.25rem;
+            list-style: none;
             .comic-item {
+                margin: 0;
+                padding: 0;
                 border-bottom: 0.25rem solid #F5F5EE;
                 .comic-link{
                     display: flex;
                     background-color: white;
                     padding: 0.25rem;
-                    box-sizing: border-box;   
+                    box-sizing: border-box;
+                    text-decoration: none;
                     .comic-cover {
                         height: 4.675rem;
                         width: 3.5rem;

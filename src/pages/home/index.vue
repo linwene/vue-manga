@@ -32,11 +32,11 @@
             <!-- 菜单 -->
             <div class="menu-list">
                 <div class="row-item">
-                    <i class="sprite-index-rank"></i>
                     <router-link 
                         class="plain-text" 
                         to="/tagPages"
                         tag="a">
+                        <i class="sprite-index-rank"></i>
                         分类
                     </router-link>
                 </div>
