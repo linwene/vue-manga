@@ -7,7 +7,7 @@
                 <i class="sprite-app-search"></i>
             </a>
         </header>
-        <section class="comic-list">
+        <section class="comic-list" @scroll="onScroll($event)">
             <ul class="list-hot">
                 <li class="comic-item" v-for="(item,index) of categoryComicList" :key="index">
                     <router-link 
@@ -29,46 +29,41 @@
                     </router-link>
                 </li>
             </ul>
+            <section class="mod-load-more">
+                <div class="mlm-status-loading" v-if="!endPageStatus">
+                    <div class="mlm-dots">
+                        <span class="mlm-dot"></span>
+                        <span class="mlm-dot"></span>
+                        <span class="mlm-dot"></span>
+                    </div>
+                    <span class="mlm-info">嘿咻嘿咻加载中</span>
+                </div>
+                <div class="mlm-status-over" v-else>
+                    客官，人家已经没有那个的啦~~
+                </div>
+            </section>
         </section>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import _ from 'lodash'
     export default {
         name:'TagListAll',
         data () {
             return{
                 category_name:this.$route.params.category_name,
                 categoryComicList:[],
-                // throttleLoad:'',
-                page:1
+                page:1,
+                endPageStatus:false
+
             }
         },
-        created() {
-            window.addEventListener('scroll', _.throttle(this.onScroll,200));
-            // window.addEventListener('scroll',this.onScroll)
-
-        },
-        destroyed () {
-            // window.removeEventListener('scroll',this.onScroll)
-            window.removeEventListener('scroll',this.onScroll)
-        },
         methods:{
-            onScroll(){
-                //滚动容器的高度
-                let innerHeight = document.querySelector('#app').clientHeight;
-                //屏幕尺寸高度
-                let outerHeight = document.documentElement.clientHeight;
-                //可滚动容器超出当前窗口显示范围的高度
-                let scrollTop = document.documentElement.scrollTop;
-                //scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
-                console.log(innerHeight + " " + outerHeight + " " + scrollTop);
-                if (innerHeight < (outerHeight + scrollTop)) {
-                    //加载更多操作
-                    console.log("loadmore");
-                    this.page = this.page + 1;
-                    this.loadMoreComic();
+            onScroll(e){
+                if(e.srcElement.scrollTop+e.srcElement.offsetHeight>e.srcElement.scrollHeight-100){
+                    this.loadMoreComic()
                 }
             },
             getComic () {
@@ -81,16 +76,20 @@
                     }
                 })
             },
-            loadMoreComic () {
+            // 加载防抖
+            loadMoreComic:_.debounce(function(){
                 let self = this
+                self.page = self.page + 1;
                 const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=10`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
                         self.categoryComicList = self.categoryComicList.concat(data.data.msg)
+                    }else{
+                        this.endPageStatus = true
                     }
                 })
-            }
+            },200)
         },
         mounted () {
             this.getComic()
@@ -155,9 +154,14 @@
         }
     }
     .comic-list{
-        margin-top:2.5rem;
+        position: absolute;
+        top: 2.5rem;
+        bottom: 0;
+        left: 0;
+        right: 0;
         padding-top: 0.25rem;
         background-color: #F5F5EE;
+        overflow: auto;
         .list-hot{
             margin:0;
             padding:0 0.25rem;
@@ -205,6 +209,59 @@
                             text-overflow: ellipsis;
                             padding-top: 1px;
                         }
+                    }
+                }
+            }
+        }
+        .mod-load-more {
+            text-align: center;
+            padding-top: 0.95rem;
+            padding-bottom: 0.95rem;
+            color: #9a9a9a;
+            font-size: 0.6rem;
+            .mlm-status-loading{
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0;
+                font-size: 100%;
+                vertical-align: baseline;
+                background: transparent;
+                display: inline-block;
+                .mlm-dots{
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                    display: inline-block;
+                    .mlm-dot{
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 5px;
+                        height: 5px;
+                        background-color: #7a8090;
+                        border-radius: 50%;
+                        margin: 0 3px;
+                    }
+                    .mlm-dot:nth-of-type(1) {
+                        background-color: #7a8090;
+                        animation: dot 1s ease-in infinite;
+                    }
+                    .mlm-dot:nth-of-type(2) {
+                        background-color: rgba(122, 128, 144, 0.6);
+                        animation: dot 1s ease-in 0.3s infinite;
+                    }
+                    .mlm-dot:nth-of-type(3) {
+                        background-color: rgba(122, 128, 144, 0.3);
+                        animation: dot 1s ease-in 0.7s infinite;
+                    }
+                    @keyframes dot {
+                        25% { border-color: #7a8090; background-color: transparent; }
+                        50% { border-right-color: transparent; background-color: #7a8090; }
+                        75% { border-right-color: rgba(122, 128, 144, 0.3); }
+                    }
+                    .mlm-info {
+                        display: inline-block;
+                        vertical-align: middle;
                     }
                 }
             }

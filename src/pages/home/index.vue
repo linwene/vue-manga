@@ -210,7 +210,7 @@
             getJPcomic () {
                 let self = this
                 // encodeURI是为了解决get提交有可能中文乱码问题
-                const url = `http://192.168.1.110:5000/category_query?`+encodeURI('tags=日漫')+`&page=1&count=6`
+                const url = `${this.$hostname}/category_query?`+encodeURI('tags=日漫')+`&page=1&count=6`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
