@@ -7,6 +7,7 @@ import TagPages from '@/pages/tagPages/index.vue'
 import TagListAll from '@/pages/tagListAll/index.vue'
 import Search from '@/pages/search/index.vue'
 import Recommend from '@/pages/recommend/index.vue'
+import UpdateToday from '@/pages/updateToday/index.vue'
 
 Vue.use(Router)
 
@@ -40,6 +41,10 @@ export default new Router({
       path: '/recommend',
       name: 'Recommend',
       component: Recommend
+    },{
+      path: '/updateToday',
+      name: 'UpdateToday',
+      component: UpdateToday
     }
   ]
 })

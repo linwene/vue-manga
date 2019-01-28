@@ -100,7 +100,11 @@
             <h2 class="sub-title">
                 <strong class="title-content">[今日我更新]</strong>
                 <small class="desc">“已把作者逼疯，吐血ing...”</small>
-                <a class="link-more">[更多]</a>
+                <router-link
+                    class="link-more"
+                    to="/updateToday"
+                    >
+                    [更多]</router-link>
             </h2>
             <div class="update-area">
                 <aside class="npc">[NPC图片]</aside>
@@ -518,14 +522,13 @@
                 height: 17.5rem;
                 background: url('../../../static/images/sc_img_index.png') no-repeat 0rem 0rem;
                 background-size: 20.5rem 17.5rem;
-                width: 5rem;
-                height: 17.5rem;
                 background-repeat: no-repeat;
             }
             .comic-list{
                 margin: 0 0.5rem 0 0;
                 padding: 0;
                 flex: 1;
+                overflow:hidden;
                 .comic-item {
                     display: block;
                     background-color: #F5F4EF;
@@ -559,6 +562,7 @@
                             font-size: 100%;
                             vertical-align: baseline;
                             background: transparent;
+                            overflow: hidden;
                             .comic-title{
                                 display: block;
                                 margin-top: 0.7rem;
@@ -574,11 +578,17 @@
                                 font-size: 0.6rem;
                                 font-weight: normal;
                                 color: #969696;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
                             }
                             .comic-tag{
                                 font-size: 0.6rem;
                                 color: #969696;
                                 line-height: 1rem;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
                                 span{
                                     margin-right: 2px;
                                 }
