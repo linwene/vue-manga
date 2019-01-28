@@ -84,13 +84,14 @@
                                         category:msg.category,
                                         desc:msg.desc
                                     }
-                                    self.updateComicList.push(comic_detail)    
+                                    self.updateComicList.push(comic_detail)
+                                    this.endPageStatus = true
                                 }
                             })
                         });
                     }
                 })
-                this.endPageStatus = true
+                
             }
             
         },

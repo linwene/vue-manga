@@ -73,6 +73,16 @@
                         </div>
                     </router-link>
                 </div>
+                <section class="mod-load-more">
+                    <div class="mlm-status-loading" v-if="loadingStatus">
+                        <div class="mlm-dots">
+                            <span class="mlm-dot"></span>
+                            <span class="mlm-dot"></span>
+                            <span class="mlm-dot"></span>
+                        </div>
+                        <span class="mlm-info">嘿咻嘿咻加载中</span>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -93,7 +103,8 @@
                 showComicListStatus:true,//true一开始默认显示章节目录
                 chapterList:[],
                 orderReverseStatus:true,
-                author:""
+                author:"",
+                loadingStatus:true
             }
         },
         methods: {
@@ -128,6 +139,7 @@
                         this.kuaikan_praise = data.data.hot_num
                         this.chapterList = comic_chapter
                         // console.log(comic_chapter)
+                        this.loadingStatus = false
                     }
                 })
             },
@@ -336,6 +348,59 @@
                             overflow: hidden;
                             text-overflow: ellipsis;
                             white-space: nowrap;
+                        }
+                    }
+                }
+            }
+            .mod-load-more {
+                text-align: center;
+                padding-top: 0.95rem;
+                padding-bottom: 0.95rem;
+                color: #9a9a9a;
+                font-size: 0.6rem;
+                .mlm-status-loading{
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    outline: 0;
+                    font-size: 100%;
+                    vertical-align: baseline;
+                    background: transparent;
+                    display: inline-block;
+                    .mlm-dots{
+                        margin: 0;
+                        padding: 0;
+                        text-align: center;
+                        display: inline-block;
+                        .mlm-dot{
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: 5px;
+                            height: 5px;
+                            background-color: #7a8090;
+                            border-radius: 50%;
+                            margin: 0 3px;
+                        }
+                        .mlm-dot:nth-of-type(1) {
+                            background-color: #7a8090;
+                            animation: dot 1s ease-in infinite;
+                        }
+                        .mlm-dot:nth-of-type(2) {
+                            background-color: rgba(122, 128, 144, 0.6);
+                            animation: dot 1s ease-in 0.3s infinite;
+                        }
+                        .mlm-dot:nth-of-type(3) {
+                            background-color: rgba(122, 128, 144, 0.3);
+                            animation: dot 1s ease-in 0.7s infinite;
+                        }
+                        @keyframes dot {
+                            25% { border-color: #7a8090; background-color: transparent; }
+                            50% { border-right-color: transparent; background-color: #7a8090; }
+                            75% { border-right-color: rgba(122, 128, 144, 0.3); }
+                        }
+                        .mlm-info {
+                            display: inline-block;
+                            vertical-align: middle;
                         }
                     }
                 }
