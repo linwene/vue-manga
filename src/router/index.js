@@ -5,6 +5,8 @@ import Detail from '@/pages/detail/index.vue'
 import ReadPages from '@/pages/readPages/index.vue'
 import TagPages from '@/pages/tagPages/index.vue'
 import TagListAll from '@/pages/tagListAll/index.vue'
+import Search from '@/pages/search/index.vue'
+import Recommend from '@/pages/recommend/index.vue'
 
 Vue.use(Router)
 
@@ -30,6 +32,14 @@ export default new Router({
       path: '/tagListAll/:category_name',
       name: 'TagListAll',
       component: TagListAll
+    },{
+      path: '/search',
+      name: 'Search',
+      component: Search
+    },{
+      path: '/recommend',
+      name: 'Recommend',
+      component: Recommend
     }
   ]
 })

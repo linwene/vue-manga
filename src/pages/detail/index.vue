@@ -8,9 +8,16 @@
                     <h3 class="maskTitle">{{comic_title}}</h3>
                     <div class="maskContent">
                         <!-- 限制页面只能够存在4个分类，防止超出页面样式出错 -->
-                        <div class="category" v-for="(item,index) of categoryList" :key="index" v-if="index<4" >
+                        <router-link 
+                            tag="div"
+                            class="category" 
+                            v-for="(item,index) of categoryList" 
+                            :key="index" 
+                            v-if="index<4" 
+                            :to="'/tagListAll/' + item"
+                            >
                             {{item}}
-                        </div>
+                        </router-link>
                         <div class="text">
                             <span class="kuaikanPraise">快看总热度：{{kuaikan_praise}}</span>
                         </div>

@@ -8,9 +8,13 @@
                 </a>
             </div>
             <!-- search -->
-            <a href="" title="分类" class="search-link">
+            <router-link 
+                class="search-link"
+                tag="a"
+                to="/search"
+                >
                 <i class="sprite-app-search"></i>
-            </a>
+            </router-link>
         </header>
         <!-- 轮播 -->
         <div class="wrapper">
@@ -67,7 +71,11 @@
             <h2 class="sub-title">
                 <strong class="title-content">[无良推荐]</strong>
                 <small class="desc">“随机推荐超好看的漫画”</small>
-                <a class="link-more" href="">[更多]</a>
+                <router-link
+                    class="link-more"
+                    to="/recommend"
+                    >
+                    [更多]</router-link>
             </h2>
             <div class="middle">
                 <div class="rows">

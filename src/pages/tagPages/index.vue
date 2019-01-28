@@ -3,9 +3,14 @@
         <header class="top-bar">
             <span class="btn-top back" @click="$router.back(-1)">[返回]</span>
             <h1 class="top-title">分类</h1>
-            <a href="" title="分类" class="search-link">
+            <!-- search -->
+            <router-link 
+                class="search-link"
+                tag="a"
+                to="/search"
+                >
                 <i class="sprite-app-search"></i>
-            </a>
+            </router-link>
         </header>
         <div class="content">
             <div class="item" v-for="(item,index) of categoryList" :key="index">

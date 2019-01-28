@@ -2,7 +2,7 @@
     <div>
         <header class="top-bar">
             <span class="btn-top back" @click="$router.back(-1)">[返回]</span>
-            <h1 class="top-title">{{category_name}}</h1>
+            <h1 class="top-title">无良推荐</h1>
             <!-- search -->
             <router-link 
                 class="search-link"
@@ -14,7 +14,7 @@
         </header>
         <section class="comic-list" @scroll="onScroll($event)">
             <ul class="list-hot">
-                <li class="comic-item" v-for="(item,index) of categoryComicList" :key="index">
+                <li class="comic-item" v-for="(item,index) of recommendList" :key="index">
                     <router-link 
                         :to="'/detail/' + item.id"
                         tag="a"
@@ -55,14 +55,11 @@
     import axios from 'axios'
     import _ from 'lodash'
     export default {
-        name:'TagListAll',
+        name:'Recommend',
         data () {
             return{
-                category_name:this.$route.params.category_name,
-                categoryComicList:[],
-                page:1,
+                recommendList:[],
                 endPageStatus:false
-
             }
         },
         methods:{
@@ -76,23 +73,24 @@
             },
             getComic () {
                 let self = this
-                const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=10`
+                const url =`${this.$hostname}/random_select_comic?quantity=${10}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
-                        self.categoryComicList = data.data.msg
+                        self.recommendList = data.data.msg
+                    }else{
+                        this.endPageStatus = true
                     }
                 })
             },
             // 加载防抖
             loadMoreComic:_.debounce(function(){
                 let self = this
-                self.page = self.page + 1;
-                const url =`${this.$hostname}/category_query?tags=${encodeURI(this.category_name)}&page=${this.page}&count=10`
+                const url =`${this.$hostname}/random_select_comic?quantity=${10}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
-                        self.categoryComicList = self.categoryComicList.concat(data.data.msg)
+                        self.recommendList = self.recommendList.concat(data.data.msg)
                     }else{
                         this.endPageStatus = true
                     }
