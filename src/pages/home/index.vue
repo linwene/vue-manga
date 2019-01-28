@@ -41,10 +41,12 @@
                     </router-link>
                 </div>
                 <div class="row-item">
-                    <a title="分类" href="">
+                    <router-link
+                        :to="'/tagListAll/'+encodeURI('全部漫画')"
+                        >
                         <i class="sprite-index-category"></i>
                         <div class="plain-text">全部</div>
-                    </a>
+                    </router-link>
                 </div>
                 <div class="row-item">
                     <a title="更新" href="">
@@ -121,7 +123,11 @@
             <h2 class="sub-title">
                 <strong class="title-content">[日漫经典]</strong>
                 <small class="desc">“那些年，一起挖过的宝藏。”</small>
-                <a class="link-more">[更多]</a>
+                <router-link 
+                    class="link-more"
+                    tag="a"
+                    :to="'/tagListAll/'+encodeURI('日漫')"
+                    >[更多]</router-link>
             </h2>
             <div class="middle">
                 <div class="rows">
@@ -415,6 +421,7 @@
                         img{
                             width: 100%;
                             height: 100%;
+                            pointer-events: none;//这句的作用是禁止移动端点击放大
                         }
                         .comic-content{
                             // background: #fff;
@@ -532,6 +539,7 @@
                                 display: block;
                                 width: 4rem;
                                 height: 5.25rem;
+                                pointer-events: none;//这句的作用是禁止移动端点击放大
                             }
                         }
                         .comic-content{
@@ -653,6 +661,7 @@
                         img{
                             width: 100%;
                             height: 100%;
+                            pointer-events: none;//这句的作用是禁止移动端点击放大
                         }
                         .comic-content{
                             // background: #fff;

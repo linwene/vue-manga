@@ -7,7 +7,8 @@
                 <div class="mask">
                     <h3 class="maskTitle">{{comic_title}}</h3>
                     <div class="maskContent">
-                        <div class="category" v-for="(item,index) of categoryList" :key="index">
+                        <!-- 限制页面只能够存在4个分类，防止超出页面样式出错 -->
+                        <div class="category" v-for="(item,index) of categoryList" :key="index" v-if="index<4" >
                             {{item}}
                         </div>
                         <div class="text">
@@ -146,7 +147,8 @@
             // height: 11.7rem;
             .headerBg{
                 width: 100%;
-                display: block
+                display: block;
+                pointer-events: none;//这句的作用是禁止移动端点击放大
             }
             .returnBtn{
                 position: absolute;
@@ -199,15 +201,18 @@
                         height: 18px;
                         padding: 1px 5px 1px 5px;
                         margin-right: 5px;
+                        white-space: nowrap;
                     }
                     .text{
                         text-align: right;
                         flex: 1;
+                        height: 1.8rem;
+                        line-height: 1.8rem;
                     }
                     .kuaikanPraise{
                         font-size: 12px;
                         box-sizing: border-box;
-                        padding: .7rem 0 0 1.1rem;
+                        padding: 0;
                         display: inline-block;
                         overflow: hidden;
                         text-overflow: ellipsis;

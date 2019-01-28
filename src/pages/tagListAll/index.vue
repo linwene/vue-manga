@@ -63,7 +63,10 @@
         methods:{
             onScroll(e){
                 if(e.srcElement.scrollTop+e.srcElement.offsetHeight>e.srcElement.scrollHeight-100){
-                    this.loadMoreComic()
+                    // 当获取到最后一页的时候，禁用加载更多接口
+                    if (!this.endPageStatus){
+                        this.loadMoreComic()
+                    }
                 }
             },
             getComic () {
@@ -208,6 +211,11 @@
                             overflow: hidden;
                             text-overflow: ellipsis;
                             padding-top: 1px;
+                        }
+                        .comic-tag{
+                            span{
+                                margin-right: .2rem;
+                            }
                         }
                     }
                 }

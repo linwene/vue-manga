@@ -11,9 +11,9 @@
             <div class="item" v-for="(item,index) of categoryList" :key="index">
                 <router-link 
                     class="itemsLink" 
-                   :to="'/tagListAll/' + item.category_name"
-                   tag="a"
-                   >
+                    :to="'/tagListAll/' + item.category_name"
+                    tag="a"
+                    >
                     <span class="bgCover" :style="item.style"></span>
                     <span class="text">{{item.category_name}}</span>
                 </router-link>
