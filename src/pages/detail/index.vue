@@ -2,9 +2,10 @@
     <div>
         <div class="Lists">
             <header class="listsHeader">
-                <img class="headerBg" :src="cover_image_url">
+                <img src="../../../static/images/img_bg_2.png" class="headerBg" v-if="cover_loading">
+                <img class="headerBg" :src="cover_image_url" v-else>
                 <span class="returnBtn" @click="$router.back(-1)"></span>
-                <div class="mask">
+                <div class="mask" v-if="!cover_loading">
                     <h3 class="maskTitle">{{comic_title}}</h3>
                     <div class="maskContent">
                         <!-- 限制页面只能够存在4个分类，防止超出页面样式出错 -->
@@ -13,7 +14,7 @@
                             class="category" 
                             v-for="(item,index) of categoryList" 
                             :key="index" 
-                            v-if="index<4" 
+                            v-if="index<4"
                             :to="'/tagListAll/' + item"
                             >
                             {{item}}
@@ -104,7 +105,8 @@
                 chapterList:[],
                 orderReverseStatus:true,
                 author:"",
-                loadingStatus:true
+                loadingStatus:true,
+                cover_loading:true, //封面加载状态
             }
         },
         methods: {
@@ -127,6 +129,7 @@
                         this.desc = comic_detail[0].desc
                         this.categoryList = comic_detail[0].category
                         this.author = comic_detail[0].author
+                        this.cover_loading = false
                     }
                 })
             },
