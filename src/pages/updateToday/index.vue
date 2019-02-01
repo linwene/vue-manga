@@ -18,7 +18,7 @@
                     <router-link 
                         :to="'/detail/' + item.comic_id"
                         tag="a"
-                        :key="item.comic_id"c
+                        :key="item.comic_id"
                         class="comic-link">
                         <div class="comic-cover">
                             <img class="cover-image" :src="item.img_url"/>
