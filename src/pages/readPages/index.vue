@@ -22,8 +22,8 @@
             >
             已经到达了尽头啦~
         </div>
-        <section class="mod-load-more">
-            <div class="mlm-status-loading" v-if="loadingStatus">
+        <section class="mod-load-more"  v-if="loadingStatus">
+            <div class="mlm-status-loading">
                 <div class="mlm-dots">
                     <span class="mlm-dot"></span>
                     <span class="mlm-dot"></span>
@@ -31,7 +31,7 @@
                 </div>
                 <span class="mlm-info">嘿咻嘿咻加载中</span>
             </div>
-        </section>        
+        </section>
     </div>
 </template>
 <script>

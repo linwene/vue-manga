@@ -53,10 +53,12 @@
                     </router-link>
                 </div>
                 <div class="row-item">
-                    <a title="更新" href="">
+                    <router-link
+                        :to="'/updateWeek/'"
+                        >
                         <i class="sprite-index-update"></i>
                         <div class="plain-text">追更</div>
-                    </a>
+                    </router-link>
                 </div>
                 <div class="row-item">
                     <a title="日漫" href="">

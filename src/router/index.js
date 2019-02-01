@@ -8,6 +8,7 @@ import TagListAll from '@/pages/tagListAll/index.vue'
 import Search from '@/pages/search/index.vue'
 import Recommend from '@/pages/recommend/index.vue'
 import UpdateToday from '@/pages/updateToday/index.vue'
+import UpdateWeek from '@/pages/updateWeek/index.vue'
 
 Vue.use(Router)
 
@@ -45,6 +46,10 @@ export default new Router({
       path: '/updateToday',
       name: 'UpdateToday',
       component: UpdateToday
+    },{
+      path: '/updateWeek',
+      name: 'UpdateWeek',
+      component: UpdateWeek
     }
   ]
 })
