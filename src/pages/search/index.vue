@@ -5,7 +5,7 @@
             <div class="search-form">
                 <span class="search-top-btn back" @click="$router.back(-1)">[返回]</span>
                 <!--搜索栏文本-->
-                <div class="search-txt">
+                <div class="search-txt" :class="{'focus':inputFocusStatus}">
                     <!--搜索栏文本 - 文本提示框-->
                     <div class="search-hint-box">
                         <div class="search-hint-pad focus-ani"></div>
@@ -16,10 +16,11 @@
                     <!--搜索栏文本 - 文本输入框-->
                     <div class="search-text-box">
                         <div class="txt-input-pad"></div>
-                        <input class="txt-input" type="search"/>
+                        <input class="txt-input" type="search" @focus="inputFocus" @blur.prevent="inputFocus"/>
+                        <a class="txt-input-clear">[X]</a>
                     </div>
                 </div>
-                <input class="search-top-btn search" type="submit" value="搜索"/>
+                <span class="search-top-btn search">搜索</span>
             </div>
         </section>
     </div>
@@ -30,8 +31,13 @@
         name:'Search',
         data () {
             return {
-                
+                inputFocusStatus:false
             }
+        },
+        methods: {
+            inputFocus () {
+                this.inputFocusStatus = !this.inputFocusStatus
+            },
         }
     }
 </script>
@@ -164,9 +170,8 @@
                     input[type=search]::-webkit-search-cancel-button{
                         -webkit-appearance: none;
                     }
-                    /*自己重写小x的样式*/
-                    input[type="search"]::-webkit-search-cancel-button{
-                        -webkit-appearance: none;
+                    .txt-input-clear {
+                        display: block;
                         margin-left: 0.25rem;
                         margin-right: 0.3rem;
                         width: 0.8rem;
@@ -178,20 +183,38 @@
                         background-repeat: no-repeat;
                         text-indent: -2500rem;
                         font-size: 0;
+                        visibility: hidden;
+                        opacity: 0;
                         transition: transform 200ms ease, visibility 200ms ease, -webkit-transform 200ms ease;
                     }
                 }
                 
             }
-            .search {
-                    display: block;
-                    padding: 0.5rem;
-                    font-size: 0.75rem;
-                    color: white;
-                    border: 0 none;
-                    background: transparent;
-                    -webkit-appearance: none;
+            .search-txt.focus{
+                .focus-ani {
+                    visibility: visible;
+                    -webkit-transform: translate3d(-100%, 0, 0);
+                    transform: translate3d(-100%, 0, 0);
                 }
+                .search-hint-icon, .search-hint-txt {
+                    visibility: hidden;
+                    opacity: 0; 
+                }
+                .txt-input-clear {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+            
+            .search {
+                display: block;
+                padding: 0.5rem;
+                font-size: 0.75rem;
+                color: white;
+                border: 0 none;
+                background: transparent;
+                -webkit-appearance: none;
+            }
         }
     }
 </style>
