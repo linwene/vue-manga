@@ -22,6 +22,7 @@
                             type="search"
                             @focus="inputFocus" 
                             @blur.prevent="inputBlur"
+                            @keypress="GotoSearchDetail"
                         />
                         <span class="txt-input-clear">[X]</span>
                     </div>
@@ -70,6 +71,17 @@
             inputBlur () {
                 this.inputFocusStatus = false
                 this.keyword = ""
+            },
+            GotoSearchDetail (event) {
+                if (event.keyCode == 13) { //如果按的是enter键 13是enter 
+                    event.preventDefault(); //禁止默认事件（默认是换行）
+                    this.$router.push({
+                        name:'SearchDetail',
+                        params:{
+                            keyword:this.keyword
+                        }
+                    })
+                }
             }
         },
         watch:{
