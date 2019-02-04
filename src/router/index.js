@@ -9,6 +9,7 @@ import Search from '@/pages/search/index.vue'
 import Recommend from '@/pages/recommend/index.vue'
 import UpdateToday from '@/pages/updateToday/index.vue'
 import UpdateWeek from '@/pages/updateWeek/index.vue'
+import SearchDetail from '@/pages/searchDetail/index.vue'
 
 Vue.use(Router)
 
@@ -50,6 +51,10 @@ export default new Router({
       path: '/updateWeek',
       name: 'UpdateWeek',
       component: UpdateWeek
+    },{
+      path: '/searchDetail/:keyword',
+      name: 'SearchDetail',
+      component: SearchDetail
     }
   ]
 })

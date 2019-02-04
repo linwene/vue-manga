@@ -26,7 +26,13 @@
                         <span class="txt-input-clear">[X]</span>
                     </div>
                 </div>
-                <span class="search-top-btn search">搜索</span>
+                <router-link 
+                    class="search-top-btn search"
+                    :to="'/searchDetail/' + this.keyword"
+                    tag="a"
+                >
+                    搜索
+                </router-link>
             </div>
         </section>
         <section class="search-smart-hint">
@@ -76,7 +82,7 @@
                     return
                 }
                 this.timer = setTimeout(() => {
-                    const url =`${this.$hostname}/search_comic?title=${this.keyword}&page=1&count=10`
+                    const url =`${this.$hostname}/search_comic?title=${encodeURI(this.keyword)}&page=1&count=10`
                     axios.get(url).then(res => {
                         let data = res.data
                         if (data.success){
@@ -108,6 +114,9 @@
                 padding: 0.375rem;
                 border-radius: 0.1rem;
                 overflow: hidden;
+            }
+            .search-top-btn.search{
+                text-decoration:none;
             }
             .back::after {
                 content: "";
