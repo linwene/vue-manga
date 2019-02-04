@@ -1,6 +1,6 @@
 <template>
     <div>
-       <!--搜索顶栏-->
+        <!--搜索顶栏-->
         <section class="search-top-bar">
             <div class="search-form">
                 <span class="search-top-btn back" @click="$router.back(-1)">[返回]</span>
@@ -16,28 +16,79 @@
                     <!--搜索栏文本 - 文本输入框-->
                     <div class="search-text-box">
                         <div class="txt-input-pad"></div>
-                        <input class="txt-input" type="search" @focus="inputFocus" @blur.prevent="inputFocus"/>
-                        <a class="txt-input-clear">[X]</a>
+                        <input 
+                            class="txt-input"  
+                            v-model="keyword" 
+                            type="search"
+                            @focus="inputFocus" 
+                            @blur.prevent="inputBlur"
+                        />
+                        <span class="txt-input-clear">[X]</span>
                     </div>
                 </div>
                 <span class="search-top-btn search">搜索</span>
             </div>
         </section>
+        <section class="search-smart-hint">
+            <ul class="hint-list">
+                <li class="item" v-for="(item,index) of searchList" :key="index">
+                    <router-link
+                        class="link"
+                        tag="a"
+                        :to="'/detail/' + item.id"
+                        :key="item.id"
+                    >
+                        {{item.title}}
+                    </router-link>
+                </li>
+            </ul>
+        </section>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name:'Search',
         data () {
             return {
-                inputFocusStatus:false
+                inputFocusStatus:false,
+                keyword: '',
+                searchList:[]
             }
         },
         methods: {
             inputFocus () {
-                this.inputFocusStatus = !this.inputFocusStatus
+                this.inputFocusStatus = true
             },
+            inputBlur () {
+                this.inputFocusStatus = false
+                this.keyword = ""
+            }
+        },
+        watch:{
+            keyword () {
+                if (this.timer) {
+                    clearTimeout(this.timer)
+                }
+                if (!this.keyword) {
+                    this.searchList = []
+                    return
+                }
+                this.timer = setTimeout(() => {
+                    const url =`${this.$hostname}/search_comic?title=${this.keyword}&page=1&count=10`
+                    axios.get(url).then(res => {
+                        let data = res.data
+                        if (data.success){
+                            this.searchList = data.data.msg
+                            console.log(this.searchList)
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                        this.searchList = []
+                    })
+                }, 100)
+            }
         }
     }
 </script>
@@ -172,14 +223,12 @@
                     }
                     .txt-input-clear {
                         display: block;
-                        margin-left: 0.25rem;
+                        margin-left: 0.3rem;
                         margin-right: 0.3rem;
                         width: 0.8rem;
                         height: 0.8rem;
                         background: url(../../../static/images/sc_img_search.png) no-repeat 0rem -3.475rem;
                         background-size: 5.1rem 4.275rem;
-                        width: 0.8rem;
-                        height: 0.8rem;
                         background-repeat: no-repeat;
                         text-indent: -2500rem;
                         font-size: 0;
@@ -205,7 +254,7 @@
                     opacity: 1;
                 }
             }
-            
+
             .search {
                 display: block;
                 padding: 0.5rem;
@@ -214,6 +263,40 @@
                 border: 0 none;
                 background: transparent;
                 -webkit-appearance: none;
+            }
+        }
+    }
+    .search-smart-hint{
+        margin: 0;
+        padding: 0rem 0.5rem;
+        background-color: white;
+        .hint-list {
+            margin: 0;
+            padding: 0;
+            .item:nth-child(1) {
+                border-top: 0 none;
+            }
+            .item {
+                display: block;
+                margin: 0;
+                padding: 0;
+                border-top: 1px solid #C5C5C5;
+                a {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 100%;
+                    vertical-align: baseline;
+                    background: transparent;
+                    text-decoration: none;
+                }
+                .link {
+                    display: block;
+                    height: 2.5rem;
+                    line-height: 2.5rem;
+                    padding: 0rem 0.5rem;
+                    font-size: 0.9rem;
+                    color: #969696;
+                }
             }
         }
     }
