@@ -61,10 +61,12 @@
                     </router-link>
                 </div>
                 <div class="row-item">
-                    <a title="日漫" href="">
-                        <i class="sprite-index-jp"></i>
+                    <router-link
+                        :to="'/historyPage/'"
+                        >
+                        <i class="sprite-index-history"></i>
                         <div class="plain-text">历史</div>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -254,7 +256,7 @@
         background: url('../../../static/images/sc_img_default.png') no-repeat 0rem -2.55rem;
         background-size: 14.8rem 7rem;
     } 
-    .sprite-index-rank,.sprite-index-category,.sprite-index-update,.sprite-index-jp{
+    .sprite-index-rank,.sprite-index-category,.sprite-index-update,.sprite-index-history{
         background-image: url('../../../static/images/sc_img_index.png');
         background-size: 20.5rem 17.5rem;
         display: block;
@@ -354,7 +356,7 @@
                     width: 1.7rem;
                     height: 1.7rem;
                 }
-                .sprite-index-jp {
+                .sprite-index-history {
                     margin:0 auto;
                     background-position: -16.9rem -5.825rem;
                     width: 1.7rem;

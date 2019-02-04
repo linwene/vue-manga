@@ -81,6 +81,11 @@
                     let data = res.data
                     if (data.success){
                         self.categoryComicList = data.data.msg
+                        if (self.categoryComicList.length < 10){
+                            this.endPageStatus = true
+                        }
+                    }else{
+                        this.endPageStatus = true
                     }
                 })
             },
@@ -92,7 +97,11 @@
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
-                        self.categoryComicList = self.categoryComicList.concat(data.data.msg)
+                        var list = data.data.msg
+                        self.categoryComicList = self.categoryComicList.concat(list)
+                        if (list.length < 10){
+                            this.endPageStatus = true
+                        }
                     }else{
                         this.endPageStatus = true
                     }

@@ -10,6 +10,7 @@ import Recommend from '@/pages/recommend/index.vue'
 import UpdateToday from '@/pages/updateToday/index.vue'
 import UpdateWeek from '@/pages/updateWeek/index.vue'
 import SearchDetail from '@/pages/searchDetail/index.vue'
+import HistoryPage from '@/pages/historyPage/index.vue'
 
 Vue.use(Router)
 
@@ -55,6 +56,10 @@ export default new Router({
       path: '/searchDetail/:keyword',
       name: 'SearchDetail',
       component: SearchDetail
+    },{
+      path: '/historyPage',
+      name: 'HistoryPage',
+      component: HistoryPage
     }
   ]
 })

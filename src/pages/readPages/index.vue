@@ -41,6 +41,8 @@
         data () {
             return{
                 chapterId:this.$route.params.chapterId,
+                chapter_title:'',
+                comic_id: 0,
                 imgList:[],
                 prev_url:'',
                 next_url:'',
@@ -50,16 +52,20 @@
         },
         methods:{
             getComicImg () {
+                var self = this
                 const url =`${this.$hostname}/get_detail_img?href=${this.chapterId}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){
                         this.imgList = data.data.msg
+                        this.comic_id = data.data.comic_id
+                        this.chapter_title = data.data.chapter_title
                         this.prev_url = data.data.prev_url
                         this.next_url = data.data.next_url
                         this.loadingStatus = false
                     }
                 })
+                
             },
             clickPagenation (cid) {
                 if (cid != null){
@@ -70,6 +76,9 @@
                             this.imgList = data.data.msg
                             this.prev_url = data.data.prev_url
                             this.next_url = data.data.next_url
+                            this.comic_id = data.data.comic_id
+                            this.chapter_title = data.data.chapter_title
+                            this.chapterId = cid
                             document.documentElement.scrollTop = document.body.scrollTop = 0;
                         }
                     }).catch(e=>{
@@ -84,10 +93,33 @@
                         this.showFirstPage=!this.showFirstPage
                     }, 1200);
                 }
+            },
+            saveHistory () {
+                var readHistory = []
+                var read = {
+                    comic_id:this.comic_id,
+                    chapterId:this.chapterId,
+                    chapter_title:this.chapter_title
+                }
+                if (localStorage.getItem("LOCAL_HISTORY") != null) {
+                    readHistory = JSON.parse(localStorage.getItem('LOCAL_HISTORY'))
+                    readHistory.forEach((e,i)=>{  
+                        if (e.comic_id === this.comic_id){
+                            readHistory.splice(i,1)
+                        }
+                    });
+                    readHistory.push(read)
+                }else{
+                    readHistory.push(read)
+                }
+                localStorage.setItem('LOCAL_HISTORY',JSON.stringify(readHistory))
             }
         },
         mounted () {
             this.getComicImg()
+        },
+        updated () {
+            this.saveHistory()
         }
     }
 </script>
