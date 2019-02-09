@@ -74,8 +74,8 @@
                         </div>
                     </router-link>
                 </div>
-                <section class="mod-load-more">
-                    <div class="mlm-status-loading" v-if="loadingStatus">
+                <section class="mod-load-more"  v-if="loadingStatus">
+                    <div class="mlm-status-loading">
                         <div class="mlm-dots">
                             <span class="mlm-dot"></span>
                             <span class="mlm-dot"></span>
@@ -84,8 +84,23 @@
                         <span class="mlm-info">嘿咻嘿咻加载中</span>
                     </div>
                 </section>
-            </div>
+            </div> 
         </div>
+        <section class="mod-toolBar">
+            <div class="lay-flex" >
+                <div class="lay-box">
+                    {{seeStatus?SeeHistory.chapter_title:firstChapter.title}}
+                </div>
+                <router-link 
+                    :to="'/readPages/' + SeeHistory.chapterId"
+                    tag="div"
+                    :key="SeeHistory.chapterId"
+                    class="toolBar-toolRead" 
+                >
+                    {{seeStatus?'继续阅读':'开始阅读'}}
+                </router-link>
+            </div>
+        </section>
     </div>
 </template>
 <script>
@@ -107,6 +122,9 @@
                 author:"",
                 loadingStatus:true,
                 cover_loading:true, //封面加载状态
+                firstChapter:{},
+                SeeHistory:{},
+                seeStatus:false
             }
         },
         methods: {
@@ -141,19 +159,44 @@
                         let comic_chapter = data.data.msg
                         this.kuaikan_praise = data.data.hot_num
                         this.chapterList = comic_chapter
-                        // console.log(comic_chapter)
+                        this.firstChapter = comic_chapter[comic_chapter.length - 1]
                         this.loadingStatus = false
+                        console.log(this.firstChapter)
                     }
+                   
                 })
             },
             orderReverse () {
                 this.chapterList.reverse()
                 this.orderReverseStatus = !this.orderReverseStatus
+            },
+            getHistory () {
+                var self = this
+                var readHistory = []
+                var read = {
+                    comic_id:this.comic_id,
+                    chapterId:this.chapterId,
+                    chapter_title:this.chapter_title
+                }
+                if (localStorage.getItem("LOCAL_HISTORY") != null) {
+                    readHistory = JSON.parse(localStorage.getItem('LOCAL_HISTORY'))
+                    readHistory.forEach((e,i)=>{  
+                        if (e.comic_id === this.id){
+                            var history = {
+                                chapterId:e.chapterId,
+                                chapter_title:e.chapter_title
+                            }
+                            self.SeeHistory = history
+                            self.seeStatus = true
+                        }
+                    });
+                }
             }
         },
         mounted () {
             this.getComicDetail(),
-            this.getChapterDetail()
+            this.getChapterDetail(),
+            this.getHistory()
         }
     }
 </script>
@@ -162,6 +205,8 @@
         width: 100%;
         height: auto;
         background-color: #fff;
+        margin-bottom: 2.5rem;
+        overflow-x: hidden;
         .listsHeader{
             position: relative;
             box-sizing: border-box;
@@ -319,7 +364,7 @@
                 padding: .5rem;
                 width: 100%;
                 height: 4.55rem;
-                border-bottom: 1px solid #e5e5e5;
+                // border-bottom: 1px solid #e5e5e5;
                 .listItem{
                     display: flex;
                     align-items: center;
@@ -410,6 +455,58 @@
             }
         }
     }
+    .mod-toolBar{
+        background-color: white;
+        height: 2.5rem;
+        position: relative;
+        box-sizing: border-box;
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        .lay-flex {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .lay-box{
+                font-size: 0.8rem;
+                color: #969696;
+                line-height: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding-top: 1px;
+                flex:1;
+                margin: 0 .7rem;
+            }
+            .toolBar-toolRead {
+                width: 6rem;
+                font-size: 0.9rem;
+                font-weight: bold;
+                color: white;
+                height: 2.5rem;
+                line-height: 2.5rem;
+                background-color: #ff9a6a;
+                text-align: center;
+            }
+        }
+    }
+    .mod-toolBar::before {
+        content: "";
+        display: block;
+        position: absolute;
+        transform-origin: center top;
+        width: 100%;
+        top: 0;
+        width: 200%;
+        left: -50%;
+        transform: scale(0.5);
+        border-top: 1px solid #C5C5C5;
+    }    
 </style>
 
 
