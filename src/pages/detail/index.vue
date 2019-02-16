@@ -86,13 +86,14 @@
                 </section>
             </div> 
         </div>
-        <section class="mod-toolBar">
+        <section class="mod-toolBar" v-if="!loadingStatus">
             <div class="lay-flex" >
+                <!-- 三目判断是选择显示第一次阅读的样式还是看过的样式 -->
                 <div class="lay-box">
                     {{seeStatus?SeeHistory.chapter_title:firstChapter.title}}
                 </div>
                 <router-link 
-                    :to="'/readPages/' + SeeHistory.chapterId"
+                    :to="`/readPages/${seeStatus?SeeHistory.chapterId:firstChapter.href}`"
                     tag="div"
                     :key="SeeHistory.chapterId"
                     class="toolBar-toolRead" 
@@ -161,7 +162,6 @@
                         this.chapterList = comic_chapter
                         this.firstChapter = comic_chapter[comic_chapter.length - 1]
                         this.loadingStatus = false
-                        console.log(this.firstChapter)
                     }
                    
                 })

@@ -12,12 +12,12 @@
                 <i class="sprite-app-search"></i>
             </router-link>
         </header>
-        <section class="comic-list" @scroll="onScroll($event)">
+        <section class="comic-list">
             <div class="edit">
-                <span>点击右方按钮可删除指定历史记录哦</span>
-                <i class="edit-bottom"></i>
+                <span>你所有浏览过的漫画都在这儿哦...</span>
+                <!-- <i class="edit-bottom"></i> -->
             </div>
-            <ul class="list-hot">
+            <ul class="list-history">
                 <li class="comic-item" v-for="(item,index) of ComicList" :key="index">
                     <router-link 
                         :to="'/readPages/' + item.chapterId"
@@ -183,10 +183,11 @@
                 background-repeat: no-repeat;
             }
         }
-        .list-hot{
+        .list-history{
             margin:0;
             padding:0 0.25rem;
             list-style: none;
+            position: relative;
             .comic-item {
                 margin: 0;
                 padding: 0;
@@ -260,6 +261,35 @@
                             }
                         }
                     }
+                }
+            }
+            .comic-choose {
+                position: absolute;
+                z-index: 1;
+                width: 4.15rem;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                left: 0;
+                top: 0;
+                .icon-unChoose {
+                    display: block;
+                    width: 1.125rem;
+                    height: 1.125rem;
+                    border-radius: 50%;
+                    border: 1px solid #C5C5C5;
+                    background-color: white;
+                }
+                .icon-choose {
+                    display: none;
+                    width: 1.125rem;
+                    height: 1.125rem;
+                    background: url(../../../static/images/sc_img_bookshelf.png) no-repeat -1.6rem -1.6rem;
+                    background-size: 4.55rem 4.55rem;
+                    width: 1.35rem;
+                    height: 1.35rem;
+                    background-repeat: no-repeat;
                 }
             }
         }
