@@ -1,17 +1,41 @@
 <template>
     <div class="contentComics">
-        <div class="ComicPics">
+        <!-- 悬浮栏 -->
+        <section class="float-bar top" :class="{'hidden':!clickStatus}">
+            <span class="float-bar-btn back" @click="$router.back(-1)">[返回]</span>
+            <label class="float-bar-title">
+                <span class="progress">{{chapter_title}}</span>
+            </label>
+            <router-link 
+                class="float-bar-btn home"
+                tag="a"
+                to = "/"
+            >
+                [首页]
+            </router-link>
+        </section>
+        <section class="float-bar bottom" :class="{'hidden':!clickStatus}">
+            <router-link 
+                class="float-bar-btn chapter-list"
+                tag="a"
+                :to="'/detail/' + comic_id"
+            >[目录]</router-link>
+            <span class="float-bar-btn prev-chapter" @click="clickPagenation(prev_url)">[上一章]</span>
+            <span class="float-bar-btn next-chapter" @click="clickPagenation(next_url)">[下一章]</span>
+        </section>
+
+        <div class="ComicPics" @click="showMenu" v-if="!loadingStatus">
             <img :src="item.img_src" v-for="(item,index) of imgList" :key="index">
         </div>
         <div class="pagenation" v-if="!loadingStatus">
             <div class="grid-half">
-                <div href="javascript:;" class="btn prev" @click="clickPagenation(prev_url)">
+                <div class="btn prev" @click="clickPagenation(prev_url)">
                     <img src="../../../static/images/icon_left.png">
                     上一篇
                 </div>
             </div>
             <div class="grid-half">
-                <div href="javascript:;" class="btn next" @click="clickPagenation(next_url)">
+                <div class="btn next" @click="clickPagenation(next_url)">
                     下一篇
                     <img src="../../../static/images/icon_right.png">
                 </div>
@@ -36,6 +60,7 @@
 </template>
 <script>
     import axios from 'axios'
+    import _ from 'lodash'
     export default {
         name: 'ReadPages',
         data () {
@@ -48,6 +73,7 @@
                 next_url:'',
                 showFirstPage:false,
                 loadingStatus:true,
+                clickStatus:false,//决定悬浮栏隐藏与否
             }
         },
         methods:{
@@ -67,8 +93,15 @@
                 })
                 
             },
+            showMenu:_.debounce(function(){
+                this.clickStatus = !this.clickStatus
+                setTimeout(() => {
+                    this.clickStatus = false
+                }, 3000);
+            },200),
             clickPagenation (cid) {
                 if (cid != null){
+                    this.loadingStatus = true
                     const url =`${this.$hostname}/get_detail_img?href=${cid}`
                     axios.get(url).then(res => {
                         let data = res.data
@@ -80,6 +113,7 @@
                             this.chapter_title = data.data.chapter_title
                             this.chapterId = cid
                             document.documentElement.scrollTop = document.body.scrollTop = 0;
+                            this.loadingStatus = false
                         }
                     }).catch(e=>{
                         this.showFirstPage=!this.showFirstPage
@@ -125,6 +159,106 @@
 </script>
 <style lang="less" scoped>
     .contentComics{
+        /* 悬浮栏 */
+        .float-bar {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(40, 40, 40, 0.95);
+            transition: opacity 300ms ease, visibility 300ms ease, -webkit-transform 300ms ease;
+            transition: opacity 300ms ease, visibility 300ms ease, transform 300ms ease;
+            transition: opacity 300ms ease, visibility 300ms ease, transform 300ms ease, -webkit-transform 300ms ease;
+            opacity: 1;
+            visibility: visible;
+            transform: translate3d(0, 0, 0);
+        }
+        .float-bar.hidden {
+            opacity: 0;
+            visibility: hidden; 
+        }
+        .float-bar.top {
+            top: 0;
+            box-shadow: 0 0.05rem 0.125rem rgba(0, 0, 0, 0.26); 
+        }
+        .float-bar.top.hidden {
+            transform: translate3d(0, -100%, 0); 
+        }
+        .float-bar.top .float-bar-title {
+            flex: 1;
+            display: block;
+            color: #969696;
+            font-size: 0.75rem; 
+        }
+        .float-bar.top .float-bar-btn {
+            display: block;
+            width: 1.35rem;
+            height: 1.35rem;
+            padding: 0.825rem 0.75rem;
+            text-indent: -2500rem;
+            font-size: 0; 
+        }
+        .float-bar.top .float-bar-btn::after {
+            content: "";
+            display: block; 
+        }
+        .float-bar.top .float-bar-btn.back {
+            padding: 0.825rem 0.225rem; 
+        }
+        .float-bar.top .float-bar-btn.back::after {
+            width: 1.35rem;
+            height: 1.35rem;
+            background: url("../../../static/images/sc_img_chapter.png") no-repeat -25.4rem -10.2rem; background-size: 27.1rem 26.65rem; width: 1.35rem; height: 1.35rem;    
+            background-repeat: no-repeat;
+        }
+        .float-bar.top .float-bar-btn.home::after {
+            width: 1.35rem;
+            height: 1.35rem;
+            background: url("../../../static/images/sc_img_chapter.png") no-repeat -22.2rem -10.2rem; background-size: 27.1rem 26.65rem; width: 1.35rem; height: 1.35rem;        
+            background-repeat: no-repeat;
+        }
+        .float-bar.bottom {
+            bottom: 0;
+            box-shadow: 0 -0.05rem 0.125rem rgba(0, 0, 0, 0.26);
+        }
+        .float-bar.bottom.hidden {
+            transform: translate3d(0, 100%, 0); 
+        }
+        .float-bar.bottom .float-bar-btn {
+            flex: 1;
+            display: block;
+            height: 100%;
+            text-align: center;
+            text-indent: -2500rem;
+            font-size: 0; 
+        }
+        .float-bar.bottom .float-bar-btn::after {
+            content: "";
+            display: block;
+            margin: 0.825rem auto; 
+        }
+        .float-bar.bottom .float-bar-btn.chapter-list::after {
+            width: 1.35rem;
+            height: 1.35rem;
+            background: url("../../../static/images/sc_img_chapter.png") no-repeat -11.55rem -20.325rem; background-size: 27.1rem 26.65rem; width: 1.35rem; height: 1.35rem;
+            background-repeat: no-repeat; 
+        }
+        .float-bar.bottom .float-bar-btn.prev-chapter::after {
+            width: 1.35rem;
+            height: 1.35rem;
+            background: url("../../../static/images/sc_img_chapter.png") no-repeat -19rem -10.2rem; background-size: 27.1rem 26.65rem; width: 1.35rem; height: 1.35rem; 
+            background-repeat: no-repeat;
+        }
+        .float-bar.bottom .float-bar-btn.next-chapter::after {
+            width: 1.35rem;
+            height: 1.35rem;
+            background: url("../../../static/images/sc_img_chapter.png") no-repeat -20.6rem -10.2rem; background-size: 27.1rem 26.65rem; width: 1.35rem; height: 1.35rem;
+            background-repeat: no-repeat; 
+        }
+
         .ComicPics{
             position: relative;
             width: 100%;
