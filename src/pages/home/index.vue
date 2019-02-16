@@ -19,19 +19,16 @@
         <!-- 轮播 -->
         <div class="wrapper">
             <swiper :options="swiperOption">
-                <swiper-slide>
-                    <img src="../../../static/images/1.jpg" width="100%"/>
-                </swiper-slide>
-                <swiper-slide>
-                    <img src="../../../static/images/2.jpg" width="100%" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img src="../../../static/images/3.jpg" width="100%" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img src="../../../static/images/4.jpg" width="100%" />
-                </swiper-slide>                
-                <!-- <div class="swiper-pagination" slot="pagination"></div> -->
+                <swiper-slide 
+                    v-for="(item,index) of wrapperList"
+                    :key="index"
+                   
+                    >
+                    <img class="img" 
+                        :src="item.img_url" 
+                        width="100%" 
+                        @click="JumpComicDetail(item.chapterId)"/>
+                </swiper-slide>             
             </swiper>
             <!-- 菜单 -->
             <div class="menu-list">
@@ -180,12 +177,32 @@
                     }
                 },
                 recommendList:[],
+                wrapperList:[],
                 updateComicList:[],
                 jpComicList:[]
             }
         },
         methods: {
             // 获取随机推荐，6条，推荐是3的倍数，否则页面样式会出错
+            getWrapperList () {
+                let self = this
+                const url =`${this.$hostname}/get_wrapper_detail`
+                axios.get(url).then(res => {
+                    let data = res.data
+                    if (data.success){
+                        self.wrapperList = data.data.msg
+                    }
+                })
+            },
+            JumpComicDetail (chapterId) {
+                console.log(chapterId)
+                this.$router.push({
+                    name:'ReadPages',
+                    params:{
+                        chapterId:chapterId
+                    }
+                })
+            },
             getRecommendList () {
                 let self = this
                 const url =`${this.$hostname}/random_select_comic?quantity=${6}`
@@ -242,6 +259,7 @@
             }
         },
         mounted () {
+            this.getWrapperList(),
             this.getRecommendList(),
             this.getUpdateComic(),
             this.getJPcomic()
@@ -305,13 +323,15 @@
         }
     }
     .wrapper{
-        margin-top: 50px;
         position: relative;
         background: #fff;
         overflow: hidden;
         width: 100%;
         font-size: 0;
         border-bottom: 1px solid #ebebeb;
+        .img{
+            background: #fff url('../../../static/images/img_bg_2.png') no-repeat scroll center 2.5rem;
+        }
         .menu-list{
             position: relative;
             display: flex;

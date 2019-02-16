@@ -27,13 +27,17 @@
                         <span class="txt-input-clear">[X]</span>
                     </div>
                 </div>
-                <router-link 
+                <router-link v-if="this.keyword"
                     class="search-top-btn search"
                     :to="'/searchDetail/' + this.keyword"
                     tag="a"
                 >
                     搜索
                 </router-link>
+                <span v-else
+                 class="search-top-btn search">
+                    搜索
+                </span>
             </div>
         </section>
         <section class="search-smart-hint">
