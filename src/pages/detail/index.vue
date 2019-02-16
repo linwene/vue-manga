@@ -1,10 +1,22 @@
 <template>
     <div>
+        <header class="top-bar">
+            <span class="btn-top back" @click="$router.back(-1)">[返回]</span>
+            <h1 class="top-title">{{comic_title}}</h1>
+            <!-- search -->
+            <router-link 
+                class="search-link"
+                tag="a"
+                to="/search"
+                >
+                <i class="sprite-app-search"></i>
+            </router-link>
+        </header>
         <div class="Lists">
             <header class="listsHeader">
                 <img src="../../../static/images/img_bg_2.png" class="headerBg" v-if="cover_loading">
                 <img class="headerBg" :src="cover_image_url" v-else>
-                <span class="returnBtn" @click="$router.back(-1)"></span>
+                <!-- <span class="returnBtn" @click="$router.back(-1)"></span> -->
                 <div class="mask" v-if="!cover_loading">
                     <h3 class="maskTitle">{{comic_title}}</h3>
                     <div class="maskContent">
@@ -201,11 +213,66 @@
     }
 </script>
 <style lang="less" scoped>
+    .top-bar {
+        display: flex;
+        align-items: center;
+        position: fixed;
+        z-index: 149;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2.5rem;
+        background-color: #FFFFFF;
+        box-shadow: 0 0 0.125rem rgba(9, 2, 4, 0.06);
+        .btn-top.back {
+            padding: 0.375rem;
+            border-radius: 0.1rem;
+            overflow: hidden;
+            display: block;
+            text-indent: -2500rem;
+            font-size: 0;
+        }
+        .btn-top.back::after {
+            content: "";
+            display: block;
+            width: 1.35rem;
+            height: 1.35rem;
+            background: url('../../../static/images/sc_img_default.png') no-repeat -3.9rem -5.3rem;
+            background-size: 14.8rem 7rem;
+            width: 1.35rem;
+            height: 1.35rem;
+            background-repeat: no-repeat;
+        }
+        .top-title {
+            display: block;
+            height: 1.1rem;
+            line-height: 1.1rem;
+            font-size: 0.9rem;
+            color: #535252;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sprite-app-search {
+            background-image: url('../../../static/images/sc_img_default.png');
+            background-size: 14.8rem 7rem;
+            display: block;
+        }
+        .search-link{
+            position: absolute;
+            right: 10px;
+            .sprite-app-search {
+                background-position: -7.1rem -5.3rem;
+                width: 25px;
+                height: 25px;
+            }
+        }
+    }
     .Lists{
         width: 100%;
         height: auto;
         background-color: #fff;
-        margin-bottom: 2.5rem;
+        margin: 2.5rem 0;
         overflow-x: hidden;
         .listsHeader{
             position: relative;
