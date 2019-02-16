@@ -14,8 +14,8 @@
         </header>
         <section class="comic-list">
             <div class="edit">
-                <span>你所有浏览过的漫画都在这儿哦...</span>
-                <!-- <i class="edit-bottom"></i> -->
+                <span>所有浏览过的漫画都在这儿哦...</span>
+                <i class="edit-bottom"></i>
             </div>
             <ul class="list-history">
                 <li class="comic-item" v-for="(item,index) of ComicList" :key="index">
@@ -39,6 +39,10 @@
                     </router-link>
                 </li>
             </ul>
+            <div class="empty" v-if="emptyStatus">
+                <img class="bgImg" src="../../../static/images/empty.png">
+                <p class="bgP">空空如也，您这样真的好吗？</p>
+            </div>
         </section>
     </div>
 </template>
@@ -49,7 +53,8 @@
         name:'HistoryPage',
         data () {
             return{
-                ComicList:[]
+                ComicList:[],
+                emptyStatus:true
             }
         },
         methods:{
@@ -76,6 +81,7 @@
                             }
                         })    
                     });
+                    self.emptyStatus = false
                 }
             }
         },
@@ -168,6 +174,10 @@
                 color: #969696;
                 font-size: 0.7rem;
                 display: block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-right: 0.5rem;
             }
             .edit-bottom{
                 display: block;
@@ -263,34 +273,24 @@
                     }
                 }
             }
-            .comic-choose {
-                position: absolute;
-                z-index: 1;
-                width: 4.15rem;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                left: 0;
-                top: 0;
-                .icon-unChoose {
-                    display: block;
-                    width: 1.125rem;
-                    height: 1.125rem;
-                    border-radius: 50%;
-                    border: 1px solid #C5C5C5;
-                    background-color: white;
-                }
-                .icon-choose {
-                    display: none;
-                    width: 1.125rem;
-                    height: 1.125rem;
-                    background: url(../../../static/images/sc_img_bookshelf.png) no-repeat -1.6rem -1.6rem;
-                    background-size: 4.55rem 4.55rem;
-                    width: 1.35rem;
-                    height: 1.35rem;
-                    background-repeat: no-repeat;
-                }
+        }
+        .empty{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            .bgImg {
+                display: block;
+                width: 8.8rem;
+                height: 6.875rem;
+                margin-top: 1rem;
+                margin-bottom: 0.45rem;
+            }
+            .bgP {
+                font-size: 0.7rem;
+                color: #C5C5C5;
+                padding-bottom: 0.75rem;
+                text-align: center;
+                line-height: 120%;
             }
         }
     }
