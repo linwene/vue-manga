@@ -15,7 +15,11 @@
         <section class="comic-list">
             <div class="edit">
                 <span>所有浏览过的漫画都在这儿哦...</span>
-                <i class="edit-bottom"></i>
+                <i 
+                    class="edit-bottom" 
+                    :class="{'onEdit':clickClearHistory}"
+                    @click="showClearHistory"
+                    ></i>
             </div>
             <ul class="list-history">
                 <li class="comic-item" v-for="(item,index) of ComicList" :key="index">
@@ -43,6 +47,12 @@
                 <img class="bgImg" src="../../../static/images/empty.png">
                 <p class="bgP">空空如也，您这样真的好吗？</p>
             </div>
+            <div class="mod-edit" v-show="clickClearHistory">
+                <span class="edit-del" @click="clearHistory">
+                    <i class="edit-del-normal"></i>  
+                    <span>清空浏览历史</span>
+                </span>
+            </div>
         </section>
     </div>
 </template>
@@ -54,7 +64,8 @@
         data () {
             return{
                 ComicList:[],
-                emptyStatus:true
+                emptyStatus:true,
+                clickClearHistory:false
             }
         },
         methods:{
@@ -83,6 +94,19 @@
                     });
                     self.emptyStatus = false
                 }
+            },
+            showClearHistory () {
+                this.clickClearHistory = !this.clickClearHistory
+            },
+            clearHistory () {
+                if (localStorage.getItem("LOCAL_HISTORY") != null){
+                    localStorage.removeItem("LOCAL_HISTORY")
+                    this.ComicList = []
+                    this.emptyStatus = true
+                    this.clickClearHistory = false
+                }else{
+                    this.clickClearHistory = false
+                }
             }
         },
         mounted () {
@@ -92,7 +116,7 @@
 </script>
 
 <style lang="less" scoped>
-     .top-bar {
+    .top-bar {
         display: flex;
         align-items: center;
         position: fixed;
@@ -118,8 +142,6 @@
             height: 1.35rem;
             background: url('../../../static/images/sc_img_default.png') no-repeat -3.9rem -5.3rem;
             background-size: 14.8rem 7rem;
-            width: 1.35rem;
-            height: 1.35rem;
             background-repeat: no-repeat;
         }
         .top-title {
@@ -188,8 +210,13 @@
                 height: 1.35rem;
                 background: url(../../../static/images/sc_img_bookshelf.png) no-repeat 0rem 0rem;
                 background-size: 4.55rem 4.55rem;
+                background-repeat: no-repeat;
+            }
+            .edit-bottom.onEdit {
                 width: 1.35rem;
                 height: 1.35rem;
+                background: url(../../../static/images/sc_img_bookshelf.png) no-repeat -1.6rem 0rem;
+                background-size: 4.55rem 4.55rem;
                 background-repeat: no-repeat;
             }
         }
@@ -258,8 +285,6 @@
                                 height: 1.35rem;
                                 background: url(../../../static/images/sc_img_bookshelf.png) no-repeat 0rem -1.6rem;
                                 background-size: 4.55rem 4.55rem;
-                                width: 1.35rem;
-                                height: 1.35rem;
                                 background-repeat: no-repeat;
                             }
                             small {
@@ -292,6 +317,48 @@
                 text-align: center;
                 line-height: 120%;
             }
+        }
+        .mod-edit {
+            display: flex;
+            z-index: 2;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3rem;
+            position: fixed !important;
+            background-color: white;
+            .edit-del {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                color: #535252;
+                .edit-del-normal {
+                    width: 1.35rem;
+                    height: 1.35rem;
+                    background: url(../../../static/images/sc_img_bookshelf.png) no-repeat -2.8rem -1.4rem;
+                    background-size: 4rem 4rem;
+                    background-repeat: no-repeat;
+                }
+                span{
+                    margin-left: .1rem;
+                    font-size: .7rem;
+                    height: 3rem;
+                    line-height: 3rem;
+                }
+            }
+        }
+        .mod-edit::before {
+            content: "";
+            display: block;
+            position: absolute;
+            transform-origin: center top;
+            width: 100%;
+            top: 0;
+            width: 200%;
+            left: -50%;
+            transform: scale(0.5);
+            border-top: 1px solid #C5C5C5;
         }
     }
 </style>
