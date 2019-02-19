@@ -165,7 +165,7 @@
                 })
             },
             getChapterDetail () {
-                const url =`${this.$hostname}/get_chapter?id=${this.id}`
+                const url =`${this.$hostname}/get_chapter?comic_id=${this.id}`
                 axios.get(url).then(res => {
                     let data = res.data
                     if (data.success){

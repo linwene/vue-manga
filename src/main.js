@@ -7,7 +7,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
 Vue.config.productionTip = false
-Vue.prototype.$hostname = 'http://192.168.1.110:5000'
+Vue.prototype.$hostname = 'http://134.175.66.44:5000'
 
 
 Vue.use(VueAwesomeSwiper)
