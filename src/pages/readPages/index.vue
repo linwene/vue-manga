@@ -89,13 +89,26 @@
                         this.prev_url = data.data.prev_url
                         this.next_url = data.data.next_url
                         this.loadingStatus = false
+                        if (data.data.next_url!=null){
+                            const url2 =`${this.$hostname}/get_detail_img?href=${data.data.next_url}`
+                            axios.get(url2).then(res => {
+                                if (!data.success){
+                                    this.next_url = null
+                                }
+                            }).catch(e=>{
+                                this.next_url = null
+                            })
+                        }
                     }
                 })
                 
             },
             showMenu:_.debounce(function(){
+                if (this.timer){
+                    clearTimeout(this.timer)
+                }
                 this.clickStatus = !this.clickStatus
-                setTimeout(() => {
+                this.timer = setTimeout(() => {
                     this.clickStatus = false
                 }, 3000);
             },200),
@@ -114,16 +127,34 @@
                             this.chapterId = cid
                             document.documentElement.scrollTop = document.body.scrollTop = 0;
                             this.loadingStatus = false
+                            if (data.data.next_url!=null){
+                                const url2 =`${this.$hostname}/get_detail_img?href=${data.data.next_url}`
+                                axios.get(url2).then(res => {
+                                    if (!data.success){
+                                        this.next_url = null
+                                    }
+                                }).catch(e=>{
+                                    this.next_url = null
+                                })
+                            }
                         }
                     }).catch(e=>{
+                        this.loadingStatus = false
+                        if (this.timer){
+                            clearTimeout(this.edgeTimer)
+                        }
                         this.showFirstPage=!this.showFirstPage
-                        setTimeout(() => {
+                        this.edgeTimer = setTimeout(() => {
                             this.showFirstPage=!this.showFirstPage
                         }, 1200);
                     })
                 }else{
+                    this.loadingStatus = false
+                    if (this.timer){
+                        clearTimeout(this.edgeTimer)
+                    }
                     this.showFirstPage=!this.showFirstPage
-                    setTimeout(() => {
+                    this.edgeTimer = setTimeout(() => {
                         this.showFirstPage=!this.showFirstPage
                     }, 1200);
                 }
