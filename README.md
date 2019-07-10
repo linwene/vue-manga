@@ -1,10 +1,10 @@
 <h1 align="center">壹本漫画</h1>
 
 <p align="center">
-![front-end](https://img.shields.io/badge/front--end-Vue.js-brightgreen.svg)
-![back-end](https://img.shields.io/badge/back--end-Flask-brightgreen.svg)
-![crawler](https://img.shields.io/badge/crawler-Python-brightgreen.svg)
-![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)
+    <img src="https://img.shields.io/badge/front--end-Vue.js-blue.svg" alt="front-end">
+    <img src="https://img.shields.io/badge/back--end-Flask-blue.svg" alt="back-end">
+    <img src="https://img.shields.io/badge/crawler-Python-blue.svg" alt="crawler">
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license">
 </p>
 
 漫画阅读平台<br/>
