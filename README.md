@@ -1,10 +1,11 @@
 <h1 align="center">壹本漫画</h1>
 
+<p align="center">
 ![front-end](https://img.shields.io/badge/front--end-Vue.js-brightgreen.svg)
 ![back-end](https://img.shields.io/badge/back--end-Flask-brightgreen.svg)
 ![crawler](https://img.shields.io/badge/crawler-Python-brightgreen.svg)
 ![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)
-
+</p>
 
 漫画阅读平台<br/>
 [视频演示地址](https://www.bilibili.com/video/av46856146)
